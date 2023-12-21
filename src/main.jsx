@@ -7,8 +7,8 @@ import { router } from "./router/Router";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <div>
-        <RouterProvider router={router}></RouterProvider>
+        <div className="font-Poppins">
+            <RouterProvider router={router}></RouterProvider>
         </div>
     </React.StrictMode>
 );
