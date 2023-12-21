@@ -8,6 +8,9 @@ export default {
     extend: {
       fontFamily: {
         Poppins: "'Poppins', sans-serif",
+      },
+      backgroundImage: {
+        "topBannerBackground" : "url('/src/assets/images/homeTopBanner.jpg')"
       }
     },
   },
