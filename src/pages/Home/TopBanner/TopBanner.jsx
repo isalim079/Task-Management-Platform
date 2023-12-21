@@ -1,14 +1,57 @@
-const TopBanner = () => {
+/* eslint-disable react/no-unescaped-entities */
+import classNames from "classnames";
+import "animate.css";
+import bannerAnimation from "../../../assets/lottieAnimation/bannerTask.json";
+import Lottie from "lottie-react";
 
+const TopBanner = () => {
+    const animationTitle = classNames(
+        "animate__animated",
+        "animate__bounceInDown",
+        "animate__delay-0.5s"
+    );
+    const animationSubtitle = classNames(
+        "animate__animated",
+        "animate__bounceInUp",
+        "animate__delay-0.5s"
+    );
+    const animationLottie = classNames(
+        "animate__animated",
+        "animate__zoomInDown",
+        "animate__delay-0.5s"
+    );
 
     return (
-        <div className="bg-topBannerBackground bg-cover h-[calc(100vh-68px)]">
-            <div className="bg-gradient-to-b from-black to-black/25 h-[calc(100vh-68px)]">
+        <div className="bg-topBannerBackground bg-cover h-[calc(100vh-68px)] overflow-hidden">
+            <div className="bg-gradient-to-b from-black  h-[calc(100vh-68px)]">
                 <div className="flex justify-center items-center h-[calc(100vh-68px)]">
-                    <div>
-                        <h1 className="text-slate-100 font-bold uppercase text-5xl">
-                            Your ultimate task manager
-                        </h1>
+                    <div className="">
+                        <div>
+                            <h1
+                                className={`text-slate-100 font-bold uppercase text-5xl ${animationTitle}`}
+                            >
+                                Your ultimate task manager
+                            </h1>
+                            <p
+                                className={`text-white text-center text-lg mt-2 ${animationSubtitle}`}
+                            >
+                                Simplify Your To-Dos, Supercharge Your Day!
+                            </p>
+                        </div>
+                        <div
+                            className={`flex justify-center items-center ${animationLottie}`}
+                        >
+                            <Lottie
+                                className="w-80 -mt-14"
+                                animationData={bannerAnimation}
+                                loop={true}
+                            />
+                        </div>
+                        <div>
+                            <button className=" bg-teal-700  text-white w-full py-2">
+                                Let's explore
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
