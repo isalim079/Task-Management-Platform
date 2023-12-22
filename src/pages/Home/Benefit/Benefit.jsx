@@ -9,7 +9,7 @@ const Benefit = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:2900/benefits")
+            .get("https://task-manager-server-eight-sigma.vercel.app/benefits")
             .then((res) => setBenefitedUser(res.data));
     }, []);
     // console.log(benefitedUser);

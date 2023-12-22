@@ -14,7 +14,7 @@ const SocialLogin = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:2900/users")
+            .get("https://task-manager-server-eight-sigma.vercel.app/users")
             .then((res) => {
                 setImsUsers(res.data);
             })
@@ -42,7 +42,7 @@ const SocialLogin = () => {
                     );
 
                     if (!userExists) {
-                        fetch("http://localhost:2900/users", {
+                        fetch("https://task-manager-server-eight-sigma.vercel.app/users", {
                             method: "POST",
                             headers: {
                                 "content-type": "application/json",

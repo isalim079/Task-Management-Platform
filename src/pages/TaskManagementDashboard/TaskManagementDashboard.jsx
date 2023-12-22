@@ -32,7 +32,7 @@ const TaskManagementDashboard = () => {
         };
         console.log(taskData);
 
-        fetch("http://localhost:2900/taskData", {
+        fetch("https://task-manager-server-eight-sigma.vercel.app/taskData", {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -84,7 +84,6 @@ const TaskManagementDashboard = () => {
             .then((res) => {
                 console.log(res?.data);
                 if (res?.data?.insertedId) {
-                    
                     axiosPublic
                         ?.delete(`/taskData/${id}`)
                         .then((res) => {
@@ -103,7 +102,6 @@ const TaskManagementDashboard = () => {
             .catch((error) => console.log(error));
     };
 
-    
     useEffect(() => {
         axiosPublic
             .get("/completedTaskData")
@@ -363,17 +361,19 @@ const TaskManagementDashboard = () => {
                                     </h1>
                                 </div>
                                 <div>
-                                    {completedTaskData?.map((completedTask, index) => (
-                                        <div
-                                            key={completedTask?._id}
-                                            className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4"
-                                        >
-                                            <h3 className="font-semibold">
-                                                {completedTask?.taskName}
-                                            </h3>
-                                            <p>Task {index + 1}</p>
-                                        </div>
-                                    ))}
+                                    {completedTaskData?.map(
+                                        (completedTask, index) => (
+                                            <div
+                                                key={completedTask?._id}
+                                                className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4"
+                                            >
+                                                <h3 className="font-semibold">
+                                                    {completedTask?.taskName}
+                                                </h3>
+                                                <p>Task {index + 1}</p>
+                                            </div>
+                                        )
+                                    )}
                                 </div>
                             </div>
                         </div>

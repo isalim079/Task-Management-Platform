@@ -53,7 +53,7 @@ const Register = () => {
             return;
         }
 
-        fetch("http://localhost:2900/users", {
+        fetch("https://task-manager-server-eight-sigma.vercel.app/users", {
             method: "GET",
         })
             .then((res) => res.json())
@@ -85,7 +85,7 @@ const Register = () => {
                         console.log(error.message);
                     });
 
-                fetch("http://localhost:2900/users", {
+                fetch("https://task-manager-server-eight-sigma.vercel.app/users", {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
