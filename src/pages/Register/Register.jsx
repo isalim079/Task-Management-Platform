@@ -1,14 +1,14 @@
 import Lottie from "lottie-react";
-import loginAnimation from "../../assets/lottieAnimation/login.json"
 import { Link } from "react-router-dom";
+import registerAnimation from "../../assets/lottieAnimation/register.json"
 
-const Login = () => {
+const Register = () => {
     return (
         <div>
             <div className="hero min-h-screen bg-base-200">
-                <div className="hero-content flex-col lg:flex-row w-full justify-around">
+                <div className="hero-content flex-col lg:flex-row-reverse w-full justify-around">
                     <div className="">
-                       <Lottie className="" animationData={loginAnimation} loop={true}/>
+                       <Lottie className="" animationData={registerAnimation} loop={true}/>
                     </div>
                     <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-teal-800 ">
                         <form className="card-body">
@@ -38,7 +38,7 @@ const Login = () => {
                                         
                                         className="label-text-alt text-white"
                                     >
-                                        New to TASKER? <Link to="/register"><span className="underline text-sm hover:text-white">Register Now</span></Link>
+                                        Already have an account? <Link to="/login"><span className="underline text-sm hover:text-white">Login Now</span></Link>
                                     </p>
                                 </label>
                             </div>
@@ -55,4 +55,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
