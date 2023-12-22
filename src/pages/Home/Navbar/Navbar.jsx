@@ -38,7 +38,7 @@ const Navbar = () => {
             </li>
             <li>
                 <NavLink
-                    to="/dashboard"
+                    to="/taskManagementDashboard"
                     style={({ isActive }) => {
                         return {
                             fontWeight: isActive ? "bold" : "",
@@ -53,7 +53,7 @@ const Navbar = () => {
             </li>
             <li>
                 <NavLink
-                    to="/ourMenu"
+                    to="/"
                     style={({ isActive }) => {
                         return {
                             fontWeight: isActive ? "bold" : "",
@@ -68,7 +68,7 @@ const Navbar = () => {
             </li>
             <li>
                 <NavLink
-                    to="/ourShop"
+                    to="/"
                     style={({ isActive }) => {
                         return {
                             fontWeight: isActive ? "bold" : "",
