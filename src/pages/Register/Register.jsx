@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useContext } from "react";
 import { AuthContext } from "../../router/AuthProvider";
 import { updateProfile } from "firebase/auth";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
     const { registerWithEmailPass } = useContext(AuthContext);
@@ -213,6 +214,7 @@ const Register = () => {
                                 </button>
                             </div>
                         </form>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div>
