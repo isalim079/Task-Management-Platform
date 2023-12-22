@@ -4,7 +4,7 @@ import { AuthContext } from "../../router/AuthProvider";
 import { Link } from "react-router-dom";
 
 const FloatingWindow = () => {
-    const { user } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
     // console.log(user?.photoURL);
 
     const [showButton, setShowButton] = useState(true);
@@ -27,6 +27,17 @@ const FloatingWindow = () => {
 
     const [menuToggle, setMenuToggle] = useState(false);
 
+    const handleSignOut = () => {
+        logOut()
+            .then(() => {
+                console.log("you have logged out successfully");
+            })
+            .catch((error) => {
+                console.log(error.code);
+                console.log(error.message);
+            });
+    };
+
     return (
         <div>
             {showButton && (
@@ -48,7 +59,7 @@ const FloatingWindow = () => {
                                     onClick={() => setMenuToggle(!menuToggle)}
                                 >
                                     {menuToggle ? (
-                                        <div className="bg-gray-800 p-6 absolute bottom-10 right-5 rounded-md w-52">
+                                        <div className="bg-gray-800 p-6 absolute bottom-10 right-5 rounded-md w-60">
                                             <div className="space-y-4 text-xs">
                                                 <p className="text-base">
                                                     Hey, {user?.displayName}
@@ -56,6 +67,12 @@ const FloatingWindow = () => {
                                                 <p className="">
                                                     Welcome to TASKER
                                                 </p>
+                                                <button
+                                                    onClick={handleSignOut}
+                                                    className="bg-slate-600 w-full py-2 text-sm"
+                                                >
+                                                    Logout
+                                                </button>
                                             </div>
                                         </div>
                                     ) : (
@@ -68,7 +85,7 @@ const FloatingWindow = () => {
                                 <button
                                     onClick={() => setMenuToggle(!menuToggle)}
                                 >
-                                    <FaCircleUser className="text-6xl text-white" />
+                                    <FaCircleUser className="text-6xl text-white bg-teal-900 rounded-full border-none" />
                                 </button>
                                 <div
                                     className="absolute text-white"
@@ -81,10 +98,8 @@ const FloatingWindow = () => {
                                                     Hey, User
                                                 </p>
                                                 <Link to="/login">
-                                                    <button>
-                                                        <p className="">
-                                                            Login fast!
-                                                        </p>
+                                                    <button className="bg-slate-600 w-full py-2 text-sm mt-4">
+                                                        Login First!
                                                     </button>
                                                 </Link>
                                             </div>
