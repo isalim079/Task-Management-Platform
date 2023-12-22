@@ -3,6 +3,8 @@ import { CiCirclePlus } from "react-icons/ci";
 import { AuthContext } from "../../router/AuthProvider";
 import { toast } from "react-toastify";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { FaStopCircle } from "react-icons/fa";
+import { TiTick } from "react-icons/ti";
 
 const TaskManagementDashboard = () => {
     const { user } = useContext(AuthContext);
@@ -50,7 +52,7 @@ const TaskManagementDashboard = () => {
 
     const axiosPublic = useAxiosPublic();
 
-    const [taskData, setTaskData] = useState();
+    const [taskData, setTaskData] = useState([]);
     useEffect(() => {
         axiosPublic
             .get("/taskData")
@@ -58,6 +60,54 @@ const TaskManagementDashboard = () => {
             .catch((error) => console.log("fetching error", error));
     }, [axiosPublic]);
     // console.log(taskData);
+
+    const handleCompleteTick = (id) => {
+        // console.log(id);
+
+        const selectedTask = taskData?.find((tasks) => tasks?._id === id);
+        const { email, taskDeadline, taskDescription, taskName, taskPriority } =
+            selectedTask;
+
+        const taskDataBase = {
+            email,
+            taskName,
+            taskPriority,
+            taskDeadline,
+            taskDescription,
+        };
+        // console.log(taskDataBase);
+
+        axiosPublic
+            ?.post("/completedTaskData", taskDataBase)
+            .then((res) => {
+                console.log(res?.data);
+                if (res?.data?.insertedId) {
+                    axiosPublic
+                        ?.delete(`/taskData/${id}`)
+                        .then((res) => {
+                            if (res?.data?.deletedCount > 0) {
+                                setTaskData(
+                                    taskData?.filter(
+                                        (findTask) => findTask?._id !== id
+                                    )
+                                );
+                                toast.success("Task completed");
+                            }
+                        })
+                        .catch((error) => console.log(error));
+                }
+            })
+            .catch((error) => console.log(error));
+    };
+
+    const [completedTaskData, setCompletedTaskData] = useState([]);
+    useEffect(() => {
+        axiosPublic
+            .get("/completedTaskData")
+            .then((res) => setCompletedTaskData(res?.data))
+            .catch((error) => console.log("fetching error", error));
+    }, [axiosPublic]);
+    console.log(completedTaskData);
 
     return (
         <div>
@@ -206,25 +256,57 @@ const TaskManagementDashboard = () => {
                                         Ongoing Task
                                     </h1>
                                 </div>
-                               <div>
-                               {
-                                    taskData?.map((task, index) => <div key={task?._id} className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4 grid-cols-5 grid">
-                                    <div className="col-span-2">
-                                    <h3 className="font-semibold">
-                                        {task?.taskName}
-                                    </h3>
-                                    <p>Task {index + 1}</p>
-                                    </div>
-                                    <div className="col-span-2 ">
-                                        <p>{task?.taskDescription}</p>
-                                    </div>
-                                    <div>
-
-                                    </div>
-                                </div>)
-                                }
-                               </div>
-                               
+                                <div>
+                                    {taskData?.map((task, index) => (
+                                        <div
+                                            key={task?._id}
+                                            className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4 grid-cols-5 grid"
+                                        >
+                                            <div className="">
+                                                <h3 className="font-semibold">
+                                                    {task?.taskName}
+                                                </h3>
+                                                <p>Task {index + 1}</p>
+                                            </div>
+                                            <div className="col-span-3 flex justify-center items-center">
+                                                <p>{task?.taskDescription}</p>
+                                            </div>
+                                            <div className="flex justify-center items-center h-full gap-8">
+                                                <div className="">
+                                                    {task?.taskPriority ===
+                                                    "high" ? (
+                                                        <FaStopCircle className="text-2xl text-red-600" />
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                    {task?.taskPriority ===
+                                                    "medium" ? (
+                                                        <FaStopCircle className="text-2xl text-yellow-500" />
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                    {task?.taskPriority ===
+                                                    "low" ? (
+                                                        <FaStopCircle className="text-2xl text-green-500" />
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleCompleteTick(
+                                                                task?._id
+                                                            )
+                                                        }
+                                                    >
+                                                        <TiTick className="text-2xl text-green-500" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                             {/* Medium Priority */}
                             {/*  <div className="bg-slate-100 p-4 mb-4">
@@ -277,20 +359,20 @@ const TaskManagementDashboard = () => {
                                         Completed Task
                                     </h1>
                                 </div>
-                                <div className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4">
-                                    <h3 className="font-semibold">
-                                        Implement Responsive Design for Landing
-                                        Page
-                                    </h3>
-                                    <p>Task 1</p>
+                                <div>
+                                    {completedTaskData?.map((completedTask) => (
+                                        <div
+                                            key={completedTask?._id}
+                                            className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4"
+                                        >
+                                            <h3 className="font-semibold">
+                                                {completedTask?.taskName}
+                                            </h3>
+                                            <p>Task 1</p>
+                                        </div>
+                                    ))}
                                 </div>
-                                <div className="border-l-4 border-teal-900 bg-slate-200 p-2">
-                                    <h3 className="font-semibold">
-                                        Implement Responsive Design for Landing
-                                        Page
-                                    </h3>
-                                    <p>Task 2</p>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
