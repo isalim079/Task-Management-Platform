@@ -53,7 +53,7 @@ const Navbar = () => {
             </li>
             <li>
                 <NavLink
-                    to="/"
+                    to="/profile"
                     style={({ isActive }) => {
                         return {
                             fontWeight: isActive ? "bold" : "",
@@ -63,24 +63,10 @@ const Navbar = () => {
                         };
                     }}
                 >
-                    Our Menu
+                    Profile
                 </NavLink>
             </li>
-            <li>
-                <NavLink
-                    to="/"
-                    style={({ isActive }) => {
-                        return {
-                            fontWeight: isActive ? "bold" : "",
-                            textDecoration: isActive ? "underline" : "",
-                            textDecorationColor: isActive ? "white" : "",
-                            color: isActive ? "white" : "white",
-                        };
-                    }}
-                >
-                    Our Shop
-                </NavLink>
-            </li>
+        
         </>
     );
 

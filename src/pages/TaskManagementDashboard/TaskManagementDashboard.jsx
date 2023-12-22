@@ -53,6 +53,8 @@ const TaskManagementDashboard = () => {
     const axiosPublic = useAxiosPublic();
 
     const [taskData, setTaskData] = useState([]);
+    const [completedTaskData, setCompletedTaskData] = useState([]);
+
     useEffect(() => {
         axiosPublic
             .get("/taskData")
@@ -82,6 +84,7 @@ const TaskManagementDashboard = () => {
             .then((res) => {
                 console.log(res?.data);
                 if (res?.data?.insertedId) {
+                    
                     axiosPublic
                         ?.delete(`/taskData/${id}`)
                         .then((res) => {
@@ -100,7 +103,7 @@ const TaskManagementDashboard = () => {
             .catch((error) => console.log(error));
     };
 
-    const [completedTaskData, setCompletedTaskData] = useState([]);
+    
     useEffect(() => {
         axiosPublic
             .get("/completedTaskData")
@@ -360,7 +363,7 @@ const TaskManagementDashboard = () => {
                                     </h1>
                                 </div>
                                 <div>
-                                    {completedTaskData?.map((completedTask) => (
+                                    {completedTaskData?.map((completedTask, index) => (
                                         <div
                                             key={completedTask?._id}
                                             className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4"
@@ -368,11 +371,10 @@ const TaskManagementDashboard = () => {
                                             <h3 className="font-semibold">
                                                 {completedTask?.taskName}
                                             </h3>
-                                            <p>Task 1</p>
+                                            <p>Task {index + 1}</p>
                                         </div>
                                     ))}
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
