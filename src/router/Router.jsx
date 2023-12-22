@@ -5,32 +5,37 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import TaskManagementDashboard from "../pages/TaskManagementDashboard/TaskManagementDashboard";
 import ContactUs from "../pages/ContactUs/ContactUs";
+import Profile from "../pages/Profile/Profile";
 
 export const router = createBrowserRouter([
     {
-        path: '/',
+        path: "/",
         element: <Root />,
         children: [
             {
-                path: '/',
+                path: "/",
                 element: <Home />,
             },
             {
-                path: '/login',
+                path: "/login",
                 element: <Login />,
             },
             {
-                path: '/register',
+                path: "/register",
                 element: <Register />,
             },
             {
-                path: '/taskManagementDashboard',
+                path: "/taskManagementDashboard",
                 element: <TaskManagementDashboard />,
             },
             {
-                path: '/contactUs',
-                element: <ContactUs/>,
+                path: "/contactUs",
+                element: <ContactUs />,
             },
-        ]
-    }
-])
+            {
+                path: "/profile",
+                element: <Profile />,
+            },
+        ],
+    },
+]);
