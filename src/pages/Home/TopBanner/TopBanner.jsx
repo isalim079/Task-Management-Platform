@@ -3,8 +3,14 @@ import classNames from "classnames";
 import "animate.css";
 import bannerAnimation from "../../../assets/lottieAnimation/bannerTask.json";
 import Lottie from "lottie-react";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../../router/AuthProvider";
 
 const TopBanner = () => {
+    const { user } = useContext(AuthContext);
+    console.log(user?.email);
+
     const animationTitle = classNames(
         "animate__animated",
         "animate__bounceInDown",
@@ -48,9 +54,19 @@ const TopBanner = () => {
                             />
                         </div>
                         <div>
-                            <button className=" bg-teal-700  text-white w-full py-2">
-                                Let's explore
-                            </button>
+                            {user?.email ? (
+                                <Link to="/taskManagementDashboard">
+                                    <button className=" bg-teal-700  text-white w-full py-2">
+                                        Let's explore
+                                    </button>
+                                </Link>
+                            ) : (
+                                <Link to="/login">
+                                    <button className=" bg-teal-700  text-white w-full py-2">
+                                        Let's explore
+                                    </button>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
