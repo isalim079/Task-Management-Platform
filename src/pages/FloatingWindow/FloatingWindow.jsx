@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import { AuthContext } from "../../router/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FloatingWindow = () => {
     const { user, logOut } = useContext(AuthContext);
     // console.log(user?.photoURL);
 
     const [showButton, setShowButton] = useState(true);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,6 +32,8 @@ const FloatingWindow = () => {
         logOut()
             .then(() => {
                 console.log("you have logged out successfully");
+                navigate('/')
+
             })
             .catch((error) => {
                 console.log(error.code);
