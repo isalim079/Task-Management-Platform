@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: 'https://task-manager-server-eight-sigma.vercel.app'
+    baseURL: 'http://localhost:2900'
 })
 
 const useAxiosPublic = () => {

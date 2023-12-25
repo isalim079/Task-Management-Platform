@@ -32,7 +32,7 @@ const TaskManagementDashboard = () => {
         };
         console.log(taskData);
 
-        fetch("https://task-manager-server-eight-sigma.vercel.app/taskData", {
+        fetch("http://localhost:2900/taskData", {
             method: "POST",
             headers: {
                 "content-type": "application/json",
