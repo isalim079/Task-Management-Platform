@@ -6,6 +6,7 @@ import Register from "../pages/Register/Register";
 import TaskManagementDashboard from "../pages/TaskManagementDashboard/TaskManagementDashboard";
 import ContactUs from "../pages/ContactUs/ContactUs";
 import Profile from "../pages/Profile/Profile";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -26,7 +27,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/taskManagementDashboard",
-                element: <TaskManagementDashboard />,
+                element: (
+                    <PrivateRoute>
+                        <TaskManagementDashboard />
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/contactUs",
@@ -34,7 +39,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/profile",
-                element: <Profile />,
+                element: (
+                    <PrivateRoute>
+                        <Profile />
+                    </PrivateRoute>
+                ),
             },
         ],
     },
