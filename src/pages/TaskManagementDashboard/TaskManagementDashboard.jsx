@@ -1,12 +1,13 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import { useContext, useEffect, useState } from "react";
-import { CiCirclePlus } from "react-icons/ci";
+import { RiTaskFill } from "react-icons/ri";
 import { AuthContext } from "../../router/AuthProvider";
 import { toast } from "react-toastify";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { FaStopCircle } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+
 
 const TaskManagementDashboard = () => {
   const { user } = useContext(AuthContext);
@@ -142,12 +143,12 @@ const TaskManagementDashboard = () => {
         <div className="grid grid-cols-8 gap-5 h-screen">
           {/* 1st column section */}
           <div className="bg-slate-100 pt-10">
-            <div className="flex justify-around items-center mb-3">
-              <div className="bg-slate-100 text-center text-xl font-semibold">
+            <div className="flex justify-around items-center mb-2">
+              <div className="bg-slate-100 text-center text-2xl font-semibold">
                 Tasks
               </div>
               <button onClick={() => setMenuToggle(!menuToggle)}>
-                <CiCirclePlus className="text-3xl" />
+                <RiTaskFill className="text-2xl font-bold border-[2px] text-text-800 border-teal-800 p-[1px]" />
               </button>
               {menuToggle ? (
                 <form
@@ -249,7 +250,21 @@ const TaskManagementDashboard = () => {
                 ""
               )}
             </div>
-            <div className="flex justify-center">
+            <div className="ml-5 space-y-2">
+              <div className="flex items-center">
+                <FaStopCircle className="text-red-600" />
+                <p className="ml-3 text-sm">High</p>
+              </div>
+              <div className="flex items-center">
+                <FaStopCircle className="text-yellow-500" />
+                <p className="ml-3 text-sm">Medium</p>
+              </div>
+              <div className="flex items-center">
+                <FaStopCircle className="text-green-500" />
+                <p className="ml-3 text-sm">Low</p>
+              </div>
+            </div>
+            <div className="flex justify-center mt-2">
               <div className="border-2 border-teal-800 w-full "></div>
             </div>
           </div>
@@ -322,6 +337,7 @@ const TaskManagementDashboard = () => {
                             )}
                           </Draggable>
                         ))}
+                        {provided.placeholder}
                       </div>
                     )}
                   </Droppable>
