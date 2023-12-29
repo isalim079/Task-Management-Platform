@@ -8,7 +8,6 @@ import { FaStopCircle } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-
 const TaskManagementDashboard = () => {
   const { user } = useContext(AuthContext);
   // console.log(user?.email);
@@ -137,6 +136,15 @@ const TaskManagementDashboard = () => {
     }
   };
 
+  const [hoverText, setHoverText] = useState(false);
+
+  const handleHoverTextMouseOver = () => {
+    setHoverText(true);
+  };
+  const handleHoverTextMouseOut = () => {
+    setHoverText(false);
+  };
+
   return (
     <div>
       <div className="pr-5">
@@ -148,8 +156,19 @@ const TaskManagementDashboard = () => {
                 Tasks
               </div>
               <button onClick={() => setMenuToggle(!menuToggle)}>
-                <RiTaskFill className="text-2xl font-bold border-[2px] text-text-800 border-teal-800 p-[1px]" />
+                <RiTaskFill
+                  onMouseOver={handleHoverTextMouseOver}
+                  onMouseOut={handleHoverTextMouseOut}
+                  className="text-2xl font-bold border-[2px] text-text-800 border-teal-800 p-[1px] drop-shadow-md"
+                />
               </button>
+
+              {hoverText && (
+                <div className="absolute left-40 top-[90px] bg-teal-800 text-white text-xs px-2 py-1 rounded-br-md rounded-tr-md rounded-tl-md">
+                  <p>Add Task</p>
+                </div>
+              )}
+
               {menuToggle ? (
                 <form
                   onSubmit={handleTask}
