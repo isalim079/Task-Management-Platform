@@ -7,6 +7,7 @@ import TaskManagementDashboard from "../pages/TaskManagementDashboard/TaskManage
 import ContactUs from "../pages/ContactUs/ContactUs";
 import Profile from "../pages/Profile/Profile";
 import PrivateRoute from "./PrivateRoute";
+import TaskDemo from "../pages/TaskManagementDashboard/TaskDemo";
 
 export const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
             {
                 path: "/register",
                 element: <Register />,
+            },
+            {
+                path: "/taskDemo",
+                element: <TaskDemo />,
             },
             {
                 path: "/taskManagementDashboard",
