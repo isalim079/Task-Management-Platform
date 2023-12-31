@@ -5,11 +5,7 @@ const OngoingTask = ({ task, index }) => {
     // console.log(task);
 
     return (
-        <Draggable
-            key={task?._id}
-            draggableId={(index + 1).toString()}
-            index={index + 1}
-        >
+        <Draggable key={index} draggableId={`ongoing-${index + 1}`} index={index}>
             {(provided) => (
                 <div
                     ref={provided.innerRef}
