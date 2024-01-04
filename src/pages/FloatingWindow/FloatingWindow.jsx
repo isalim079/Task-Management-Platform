@@ -2,13 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import { AuthContext } from "../../router/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
+import { FaUserCheck } from "react-icons/fa";
 
 const FloatingWindow = () => {
     const { user, logOut } = useContext(AuthContext);
     // console.log(user?.photoURL);
 
     const [showButton, setShowButton] = useState(true);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,8 +33,7 @@ const FloatingWindow = () => {
         logOut()
             .then(() => {
                 console.log("you have logged out successfully");
-                navigate('/')
-
+                navigate("/");
             })
             .catch((error) => {
                 console.log(error.code);
@@ -51,11 +51,15 @@ const FloatingWindow = () => {
                                 <button
                                     onClick={() => setMenuToggle(!menuToggle)}
                                 >
-                                    <img
-                                        className="w-14 h-14 rounded-full"
-                                        src={user?.photoURL}
-                                        alt=""
-                                    />
+                                    {user?.photoUrl ? (
+                                        <img
+                                            className="w-14 h-14 rounded-full"
+                                            src={user?.photoURL}
+                                            alt=""
+                                        />
+                                    ) : (
+                                        <FaUserCheck className="text-5xl" />
+                                    )}
                                 </button>
                                 <div
                                     className="absolute text-white"
