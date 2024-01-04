@@ -6,10 +6,12 @@ import { toast } from "react-toastify";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { FaStopCircle } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
+import { MdOutlineAutoDelete } from "react-icons/md";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const TaskManagementDashboard = () => {
     const { user } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
     // console.log(user?.email);
 
     const [menuToggle, setMenuToggle] = useState(false);
@@ -20,8 +22,15 @@ const TaskManagementDashboard = () => {
     const [taskData, setTaskData] = useState([]);
     const [completedTaskData, setCompletedTaskData] = useState([]);
 
-    const testData = ([...taskData])
-    console.log(testData);
+    // const testData = ([...taskData])
+    // console.log(testData);
+
+    useEffect(() => {
+        axiosPublic
+            .get("/taskData")
+            .then((res) => setTaskData(res?.data))
+            .catch((error) => console.log("fetching error", error));
+    }, [axiosPublic]);
 
     const handleTask = (e) => {
         e.preventDefault();
@@ -52,7 +61,12 @@ const TaskManagementDashboard = () => {
             .then((data) => {
                 console.log(data);
                 if (data.insertedId) {
-                    setTaskData((taskData) => [...taskData, taskData]);
+                    axiosPublic
+                        .get("/taskData")
+                        .then((res) => {
+                            setTaskData(res?.data);
+                        })
+                        .catch((error) => console.log(error));
                     // console.log(taskData);
                     toast.success("Successfully added task");
                 }
@@ -60,18 +74,6 @@ const TaskManagementDashboard = () => {
                 form.reset();
             });
     };
-
-    const axiosPublic = useAxiosPublic();
-
-    // console.log(taskData);
-
-    useEffect(() => {
-        axiosPublic
-            .get("/taskData")
-            .then((res) => setTaskData(res?.data))
-            .catch((error) => console.log("fetching error", error));
-    }, [axiosPublic]);
-    // console.log(taskData);
 
     const handleCompleteTick = (id) => {
         // console.log(id);
@@ -160,6 +162,23 @@ const TaskManagementDashboard = () => {
     };
     const handleHoverTextMouseOut = () => {
         setHoverText(false);
+    };
+
+    const handleDelete = (id) => {
+        // console.log(id);
+        axiosPublic
+            ?.delete(`/completedTaskData/${id}`)
+            .then((res) => {
+                if (res?.data?.deletedCount > 0) {
+                    setCompletedTaskData(
+                        completedTaskData?.filter((data) => data?._id !== id)
+                    );
+                    toast.success("Task Deleted", {
+                        position: "top-center",
+                    });
+                }
+            })
+            .catch((error) => console.log(error));
     };
 
     return (
@@ -344,7 +363,6 @@ const TaskManagementDashboard = () => {
                                             <div
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
-                                                
                                             >
                                                 {taskData?.map(
                                                     (task, index) => (
@@ -472,16 +490,31 @@ const TaskManagementDashboard = () => {
                                                                     }
                                                                     className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4"
                                                                 >
-                                                                    <h3 className="font-semibold">
-                                                                        {
-                                                                            completedTask?.taskName
-                                                                        }
-                                                                    </h3>
-                                                                    <p>
-                                                                        Task{" "}
-                                                                        {index +
-                                                                            1}
-                                                                    </p>
+                                                                    <div className="flex items-center justify-between">
+                                                                        <div>
+                                                                            <h3 className="font-semibold">
+                                                                                {
+                                                                                    completedTask?.taskName
+                                                                                }
+                                                                            </h3>
+                                                                            <p>
+                                                                                Task{" "}
+                                                                                {index +
+                                                                                    1}
+                                                                            </p>
+                                                                        </div>
+                                                                        <div className="">
+                                                                            <button
+                                                                                onClick={() =>
+                                                                                    handleDelete(
+                                                                                        completedTask?._id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                <MdOutlineAutoDelete className="text-red-600 text-2xl" />
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             )}
                                                         </Draggable>
