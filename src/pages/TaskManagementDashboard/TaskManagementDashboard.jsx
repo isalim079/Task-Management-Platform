@@ -17,6 +17,12 @@ const TaskManagementDashboard = () => {
     const [taskPriority, setTaskPriority] = useState();
     // console.log(taskPriority);
 
+    const [taskData, setTaskData] = useState([]);
+    const [completedTaskData, setCompletedTaskData] = useState([]);
+
+    const testData = ([...taskData])
+    console.log(testData);
+
     const handleTask = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -26,26 +32,28 @@ const TaskManagementDashboard = () => {
         const email = user?.email;
 
         // console.log(taskName, taskPriority);
-        const taskData = {
+        const tasksData = {
             email,
             taskName,
             taskPriority,
             taskDeadline,
             taskDescription,
         };
-        console.log(taskData);
+        // console.log(taskData);
 
         fetch("http://localhost:2900/taskData", {
             method: "POST",
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify(taskData),
+            body: JSON.stringify(tasksData),
         })
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
                 if (data.insertedId) {
+                    setTaskData((taskData) => [...taskData, taskData]);
+                    // console.log(taskData);
                     toast.success("Successfully added task");
                 }
 
@@ -54,9 +62,6 @@ const TaskManagementDashboard = () => {
     };
 
     const axiosPublic = useAxiosPublic();
-
-    const [taskData, setTaskData] = useState([]);
-    const [completedTaskData, setCompletedTaskData] = useState([]);
 
     // console.log(taskData);
 
@@ -325,7 +330,7 @@ const TaskManagementDashboard = () => {
                         <div className="grid grid-cols-3 gap-5">
                             {/* Ongoing priority */}
                             <DragDropContext onDragEnd={handleDragDrop}>
-                                <div className="bg-slate-100 p-4 col-span-2">
+                                <div className="bg-slate-100 p-4 col-span-2 h-[520px] overflow-auto">
                                     <div className="flex justify-around items-center mb-4">
                                         <h1 className="text-center text-xl font-semibold">
                                             Ongoing Task
@@ -339,6 +344,7 @@ const TaskManagementDashboard = () => {
                                             <div
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
+                                                
                                             >
                                                 {taskData?.map(
                                                     (task, index) => (
@@ -425,7 +431,7 @@ const TaskManagementDashboard = () => {
                                 </div>
 
                                 {/* Completed Task */}
-                                <div className="bg-slate-100 p-4">
+                                <div className="bg-slate-100 p-4 h-[520px] overflow-auto">
                                     <div className="mb-4">
                                         <h1 className="text-center text-xl font-semibold">
                                             Completed Task
