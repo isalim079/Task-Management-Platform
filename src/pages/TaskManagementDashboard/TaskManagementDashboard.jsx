@@ -28,9 +28,9 @@ const TaskManagementDashboard = () => {
     useEffect(() => {
         axiosPublic
             .get("/taskData")
-            .then((res) => setTaskData(res?.data))
+            .then((res) => setTaskData(res?.data.filter(data => data?.email === user?.email)))
             .catch((error) => console.log("fetching error", error));
-    }, [axiosPublic]);
+    }, [axiosPublic, user?.email]);
 
     const handleTask = (e) => {
         e.preventDefault();
@@ -64,7 +64,7 @@ const TaskManagementDashboard = () => {
                     axiosPublic
                         .get("/taskData")
                         .then((res) => {
-                            setTaskData(res?.data);
+                            setTaskData(res?.data?.filter(data => data?.email === user?.email));
                         })
                         .catch((error) => console.log(error));
                     // console.log(taskData);
@@ -117,9 +117,9 @@ const TaskManagementDashboard = () => {
     useEffect(() => {
         axiosPublic
             .get("/completedTaskData")
-            .then((res) => setCompletedTaskData(res?.data))
+            .then((res) => setCompletedTaskData(res?.data.filter(data => data?.email === user?.email)))
             .catch((error) => console.log("fetching error", error));
-    }, [axiosPublic]);
+    }, [axiosPublic, user?.email]);
     // console.log(completedTaskData);
 
     const handleDragDrop = (result) => {
@@ -180,6 +180,10 @@ const TaskManagementDashboard = () => {
             })
             .catch((error) => console.log(error));
     };
+
+         
+
+      
 
     return (
         <div>
