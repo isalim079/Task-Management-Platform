@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unsafe-optional-chaining */
 import { useContext, useEffect, useState } from "react";
 import { RiTaskFill } from "react-icons/ri";
@@ -21,6 +22,7 @@ const TaskManagementDashboard = () => {
 
     const [taskData, setTaskData] = useState([]);
     const [completedTaskData, setCompletedTaskData] = useState([]);
+    // console.log(completedTaskData);
 
     // const testData = ([...taskData])
     // console.log(testData);
@@ -28,7 +30,22 @@ const TaskManagementDashboard = () => {
     useEffect(() => {
         axiosPublic
             .get("/taskData")
-            .then((res) => setTaskData(res?.data.filter(data => data?.email === user?.email)))
+            .then((res) =>
+                setTaskData(
+                    res?.data.filter((data) => data?.email === user?.email)
+                )
+            )
+            .catch((error) => console.log("fetching error", error));
+    }, [axiosPublic, user?.email]);
+
+    useEffect(() => {
+        axiosPublic
+            .get("/completedTaskData")
+            .then((res) =>
+                setCompletedTaskData(
+                    res?.data.filter((data) => data?.email === user?.email)
+                )
+            )
             .catch((error) => console.log("fetching error", error));
     }, [axiosPublic, user?.email]);
 
@@ -64,7 +81,11 @@ const TaskManagementDashboard = () => {
                     axiosPublic
                         .get("/taskData")
                         .then((res) => {
-                            setTaskData(res?.data?.filter(data => data?.email === user?.email));
+                            setTaskData(
+                                res?.data?.filter(
+                                    (data) => data?.email === user?.email
+                                )
+                            );
                         })
                         .catch((error) => console.log(error));
                     // console.log(taskData);
@@ -97,6 +118,17 @@ const TaskManagementDashboard = () => {
                 console.log(res?.data);
                 if (res?.data?.insertedId) {
                     axiosPublic
+                        .get("/completedTaskData")
+                        .then((res) => {
+                            setCompletedTaskData(
+                                res?.data?.filter(
+                                    (data) => data?.email === user?.email
+                                )
+                            );
+                        })
+                        .catch((error) => console.log(error));
+
+                    axiosPublic
                         ?.delete(`/taskData/${id}`)
                         .then((res) => {
                             if (res?.data?.deletedCount > 0) {
@@ -113,14 +145,6 @@ const TaskManagementDashboard = () => {
             })
             .catch((error) => console.log(error));
     };
-
-    useEffect(() => {
-        axiosPublic
-            .get("/completedTaskData")
-            .then((res) => setCompletedTaskData(res?.data.filter(data => data?.email === user?.email)))
-            .catch((error) => console.log("fetching error", error));
-    }, [axiosPublic, user?.email]);
-    // console.log(completedTaskData);
 
     const handleDragDrop = (result) => {
         // console.log("clicked eh", result);
@@ -180,10 +204,6 @@ const TaskManagementDashboard = () => {
             })
             .catch((error) => console.log(error));
     };
-
-         
-
-      
 
     return (
         <div>
@@ -368,83 +388,96 @@ const TaskManagementDashboard = () => {
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
                                             >
-                                                {taskData?.map(
-                                                    (task, index) => (
-                                                        <Draggable
-                                                            draggableId={
-                                                                task?._id ||
-                                                                `task-${index}`
-                                                            }
-                                                            key={task?._id}
-                                                            index={parseInt(
-                                                                index
-                                                            )}
-                                                        >
-                                                            {(provided) => (
-                                                                <div
-                                                                    {...provided.dragHandleProps}
-                                                                    {...provided.draggableProps}
-                                                                    ref={
-                                                                        provided.innerRef
+                                                {taskData?.length === 0 ? (
+                                                    <p className=" h-[420px] justify-center items-center flex text-2xl">
+                                                        You haven't added any
+                                                        task yet
+                                                    </p>
+                                                ) : (
+                                                    <>
+                                                        {taskData?.map(
+                                                            (task, index) => (
+                                                                <Draggable
+                                                                    draggableId={
+                                                                        task?._id ||
+                                                                        `task-${index}`
                                                                     }
-                                                                    className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4 grid-cols-5 grid"
+                                                                    key={
+                                                                        task?._id
+                                                                    }
+                                                                    index={parseInt(
+                                                                        index
+                                                                    )}
                                                                 >
-                                                                    <div className="">
-                                                                        <h3 className="font-semibold">
-                                                                            {
-                                                                                task?.taskName
+                                                                    {(
+                                                                        provided
+                                                                    ) => (
+                                                                        <div
+                                                                            {...provided.dragHandleProps}
+                                                                            {...provided.draggableProps}
+                                                                            ref={
+                                                                                provided.innerRef
                                                                             }
-                                                                        </h3>
-                                                                        <p>
-                                                                            Task{" "}
-                                                                            {index +
-                                                                                1}
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className="col-span-3 flex justify-center items-center">
-                                                                        <p>
-                                                                            {
-                                                                                task?.taskDescription
-                                                                            }
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className="flex justify-center items-center h-full gap-8">
-                                                                        <div className="">
-                                                                            {task?.taskPriority ===
-                                                                            "high" ? (
-                                                                                <FaStopCircle className="text-2xl text-red-600" />
-                                                                            ) : (
-                                                                                ""
-                                                                            )}
-                                                                            {task?.taskPriority ===
-                                                                            "medium" ? (
-                                                                                <FaStopCircle className="text-2xl text-yellow-500" />
-                                                                            ) : (
-                                                                                ""
-                                                                            )}
-                                                                            {task?.taskPriority ===
-                                                                            "low" ? (
-                                                                                <FaStopCircle className="text-2xl text-green-500" />
-                                                                            ) : (
-                                                                                ""
-                                                                            )}
+                                                                            className="border-l-4 border-teal-900 bg-slate-200 p-2 mb-4 grid-cols-5 grid"
+                                                                        >
+                                                                            <div className="">
+                                                                                <h3 className="font-semibold">
+                                                                                    {
+                                                                                        task?.taskName
+                                                                                    }
+                                                                                </h3>
+                                                                                <p>
+                                                                                    Task{" "}
+                                                                                    {index +
+                                                                                        1}
+                                                                                </p>
+                                                                            </div>
+                                                                            <div className="col-span-3 flex justify-center items-center">
+                                                                                <p>
+                                                                                    {
+                                                                                        task?.taskDescription
+                                                                                    }
+                                                                                </p>
+                                                                            </div>
+                                                                            <div className="flex justify-center items-center h-full gap-8">
+                                                                                <div className="">
+                                                                                    {task?.taskPriority ===
+                                                                                    "high" ? (
+                                                                                        <FaStopCircle className="text-2xl text-red-600" />
+                                                                                    ) : (
+                                                                                        ""
+                                                                                    )}
+                                                                                    {task?.taskPriority ===
+                                                                                    "medium" ? (
+                                                                                        <FaStopCircle className="text-2xl text-yellow-500" />
+                                                                                    ) : (
+                                                                                        ""
+                                                                                    )}
+                                                                                    {task?.taskPriority ===
+                                                                                    "low" ? (
+                                                                                        <FaStopCircle className="text-2xl text-green-500" />
+                                                                                    ) : (
+                                                                                        ""
+                                                                                    )}
+                                                                                </div>
+                                                                                <div>
+                                                                                    <button
+                                                                                        onClick={() =>
+                                                                                            handleCompleteTick(
+                                                                                                task?._id
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        <TiTick className="text-2xl text-green-500" />
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                        <div>
-                                                                            <button
-                                                                                onClick={() =>
-                                                                                    handleCompleteTick(
-                                                                                        task?._id
-                                                                                    )
-                                                                                }
-                                                                            >
-                                                                                <TiTick className="text-2xl text-green-500" />
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            )}
-                                                        </Draggable>
-                                                    )
+                                                                    )}
+                                                                </Draggable>
+                                                            )
+                                                        )}
+                                                    </>
                                                 )}
                                                 {provided.placeholder}
                                             </div>
