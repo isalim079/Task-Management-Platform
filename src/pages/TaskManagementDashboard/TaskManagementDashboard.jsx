@@ -115,7 +115,7 @@ const TaskManagementDashboard = () => {
         axiosPublic
             ?.post("/completedTaskData", taskDataBase)
             .then((res) => {
-                console.log(res?.data);
+                // console.log(res?.data);
                 if (res?.data?.insertedId) {
                     axiosPublic
                         .get("/completedTaskData")
